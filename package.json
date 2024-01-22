@@ -1,0 +1,16 @@
+{
+  "name": "abnamro-hypotheek-rente",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "puppeteer": "^21.7.0"
+  }
+}
