@@ -14,7 +14,7 @@ import _ from "lodash";
       if (
         response.url().includes("mortgage-customer-interest-rate-calculation")
       ) {
-        freshData = await response.json();
+        const freshData = await response.json();
         const archive = JSON.parse(fs.readFileSync("archive.json"));
         const lastData = archive[archive.length - 1];
         if (!lastData) {
