@@ -5,11 +5,32 @@
     <meta charset="UTF-8" />
     <title>Home</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: system-ui, sans-serif;
+            margin: 0;
+            padding: 16px;
+        }
+
+        canvas {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 
 <body>
     <canvas id="chart"></canvas>
     <script>
+        const gridColor = "#333333";
+        const textColor = "#e0e0e0";
+
         fetch("archive.json")
             .then((response) => response.json())
             .then((data) => {
@@ -17,10 +38,10 @@
                 var myChart = new Chart(ctx, {
                     type: "line",
                     data: {
-                        labels: data.map((item) => item.scrappedAt),
+                        labels: data.map((item) => item.scrappedAt.slice(0, 10)),
                         datasets: data[0].periods.map(({ type, duration }) => {
                             return {
-                                label: `${type}-${duration}`,
+                                label: type === 'FIXED' ? `${type}-${duration / 12}y` : `${type}`,
                                 data: data.map((i) =>
                                     parseFloat(
                                         i.periods
@@ -37,8 +58,19 @@
                     },
                     options: {
                         scales: {
+                            x: {
+                                ticks: { color: textColor },
+                                grid: { color: gridColor },
+                            },
                             y: {
                                 beginAtZero: true,
+                                ticks: { color: textColor },
+                                grid: { color: gridColor },
+                            },
+                        },
+                        plugins: {
+                            legend: {
+                                labels: { color: textColor },
                             },
                         },
                     },
