@@ -3,11 +3,16 @@
 
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             color-scheme: dark;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
@@ -18,18 +23,42 @@
             padding: 16px;
         }
 
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            min-height: 300px;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            padding: 8px;
+        }
+
         canvas {
             background-color: #1e1e1e;
             border-radius: 8px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 8px;
+            }
+
+            .chart-container {
+                height: 70vh;
+                padding: 4px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <canvas id="chart"></canvas>
+    <div class="chart-container">
+        <canvas id="chart"></canvas>
+    </div>
     <script>
         const gridColor = "#333333";
         const textColor = "#e0e0e0";
+        const isSmallScreen = window.innerWidth < 600;
 
         fetch("archive.json")
             .then((response) => response.json())
@@ -57,9 +86,16 @@
                         }),
                     },
                     options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
                         scales: {
                             x: {
-                                ticks: { color: textColor },
+                                ticks: {
+                                    color: textColor,
+                                    autoSkip: true,
+                                    maxTicksLimit: isSmallScreen ? 6 : 20,
+                                    maxRotation: isSmallScreen ? 45 : 90,
+                                },
                                 grid: { color: gridColor },
                             },
                             y: {
@@ -70,7 +106,11 @@
                         },
                         plugins: {
                             legend: {
-                                labels: { color: textColor },
+                                labels: {
+                                    color: textColor,
+                                    boxWidth: isSmallScreen ? 12 : 40,
+                                    font: { size: isSmallScreen ? 10 : 12 },
+                                },
                             },
                         },
                     },
