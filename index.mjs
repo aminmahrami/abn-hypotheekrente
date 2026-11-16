@@ -11,6 +11,7 @@ import fs from "fs";
 
   try {
     page.on("response", async (response) => {
+      console.log("Response URL:", response);
       if (
         response.url().includes("mortgage-customer-interest-rate-calculation")
       ) {
